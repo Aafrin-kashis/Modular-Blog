@@ -23,7 +23,7 @@ export function renderBlogList(container) {
 
 export function bindDeleteEvents(container, onDelete) {
   container.addEventListener('click', e => {
-    if (e.target.tagName === 'BUTTON') {
+    if(e.target.classList.contains("delete-btn")) {
       const id = parseInt(e.target.dataset.id);
       onDelete(id);
     }

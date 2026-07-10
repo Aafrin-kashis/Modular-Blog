@@ -52,6 +52,15 @@ li button {
   cursor: pointer;
 }
 
+.edit-btn{
+  background:#3b82f6;
+  color:white;
+  border:none;
+  padding:5px 10px;
+  margin-right:8px;
+  cursor:pointer;
+}
+
 /* ===========================
    Responsive Design
 =========================== */
