@@ -1,15 +1,22 @@
 // src/js/ui.js
-import { getBlogs, deleteBlog } from './data.js';
+import { getBlogs } from './data.js';
 
 export function renderBlogList(container) {
   container.innerHTML = '';
   getBlogs().forEach(blog => {
     const li = document.createElement('li');
     li.innerHTML = `
-      <h3>${blog.title}</h3>
-      <p>${blog.body}</p>
-      <button data-id="${blog.id}">Delete</button>
-    `;
+  <h3>${blog.title}</h3>
+  <p>${blog.body}</p>
+
+  <button class="edit-btn" data-id="${blog.id}">
+    Edit
+  </button>
+
+  <button class="delete-btn" data-id="${blog.id}">
+    Delete
+  </button>
+`;
     container.appendChild(li);
   });
 }
