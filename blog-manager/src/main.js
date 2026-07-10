@@ -5,6 +5,7 @@ import { renderBlogList, bindDeleteEvents } from './js/ui.js';
 const form = document.getElementById('blog-form');
 const titleInput = document.getElementById('title');
 const bodyInput = document.getElementById('body');
+const imageInput = document.getElementById("image");
 const blogList = document.getElementById('blog-list');
 
 let editingId = null;
@@ -13,6 +14,7 @@ form.addEventListener('submit', e => {
   e.preventDefault();
   const title = titleInput.value.trim();
   const body = bodyInput.value.trim();
+  const image = imageInput.value.trim();
 
   if (!title || !body) return;
 
@@ -21,14 +23,16 @@ form.addEventListener('submit', e => {
     {
     id: editingId,
     title,
-    body
+    body,
+    image
   });
   editingId = null;
 }else{
   addBlog({
     id: Date.now(),
     title,
-    body
+    body,
+    image
   });
 
 }

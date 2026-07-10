@@ -9,6 +9,12 @@ export function renderBlogList(container) {
   <h3>${blog.title}</h3>
   <p>${blog.body}</p>
 
+  ${
+ blog.image
+ ? `<img src="${blog.image}" alt="${blog.title}">`
+ : ""
+}
+
   <button class="edit-btn" data-id="${blog.id}">
     Edit
   </button>
