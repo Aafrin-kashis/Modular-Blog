@@ -162,6 +162,7 @@ color:white;
 .dark .form-box,
 .dark li{
 background:#1e293b;
+box-shadow:0 8px 10px rgb(246, 186, 246);
 }
 
 .dark input,
