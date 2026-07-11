@@ -1,43 +1,51 @@
-// src/js/data.js
-let blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+let blogs=JSON.parse(localStorage.getItem("blogs"))||[];
 
-
-// Get all blogs
-export function getBlogs() {
-  return blogs;
+export function getBlogs(){
+return blogs;
 }
 
+function save(){
+localStorage.setItem("blogs",JSON.stringify(blogs));
+}
 
-// Add blog
-export function addBlog(blog) {
-  blogs.push(blog);
-  saveBlogs();
+export function addBlog(blog){
+blogs.push(blog);
+save();
+}
+
+export function deleteBlog(id){
+blogs=blogs.filter(blog=>blog.id!==id);
+save();
+}
+
+export function updateBlog(id,data){
+
+blogs=blogs.map(blog=>{
+
+if(blog.id===id){
+return {...blog,...data};
+}
+
+return blog;
+
+});
+
+save();
 
 }
 
+export function filterBlogs(value){
 
-// Delete blog
-export function deleteBlog(id) {
-  blogs = blogs.filter(blog => blog.id !== id);
-  saveBlogs();
-
+if(!value){
+return blogs;
 }
 
-export function updateBlog(updatedBlog) {
-  blogs = blogs.map(blog =>
-    blog.id === updatedBlog.id ? updatedBlog : blog
-  );
+return blogs.filter(blog=>
 
-  saveBlogs();
+blog.title.toLowerCase().includes(value.toLowerCase()) ||
 
-}
+blog.tags.some(tag=>tag.includes(value.toLowerCase()))
 
+);
 
-// Save data in localStorage
-function saveBlogs() {
-
-  localStorage.setItem(
-    "blogs",
-    JSON.stringify(blogs)
-  );
 }

@@ -1,24 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog List Manager</title>
-  <script type="module" src="src/main.js" defer></script>
-  <link rel="stylesheet" href="src/style.css" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog Manager Pro</title>
+<script type="module" src="src/main.js" defer></script>
+<link rel="stylesheet" href="src/style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>Blog Manager</h1>
 
-    <form id="blog-form">
-      <input type="text" id="title" placeholder="Blog title" required />
-      <textarea id="body" placeholder="Blog body..." required></textarea>
-      <input type="text" id="image" placeholder="Image URL">
-      <button type="submit">Add Blog</button>
-    </form>
+<div class="app">
 
-    <ul id="blog-list"></ul>
-  </div>
+<header>
+<h1>Blog Manager Pro</h1>
+<button id="themeBtn">Dark Mode</button>
+</header>
+
+<div class="dashboard">
+<div class="card">
+<h3>Total Blogs</h3>
+<p id="count">0</p>
+</div>
+</div>
+
+<section class="form-box">
+<h2 id="formTitle">Create Blog</h2>
+
+<form id="blog-form">
+
+<input type="hidden" id="edit-id">
+
+<input id="title" placeholder="Blog title" required>
+
+<textarea id="body" placeholder="Write your blog..." required></textarea>
+
+<input id="image" placeholder="Image URL">
+
+<img id="preview">
+
+<input id="tags" placeholder="Tags (javascript, react)">
+
+<button type="submit">Save Blog</button>
+
+</form>
+</section>
+
+<input id="search" placeholder="Search blog...">
+
+<ul id="blog-list"></ul>
+
+</div>
+
+<footer>
+<p>© 2026 Aafrin Kashis | Blog Manager Pro</p>
+</footer>
+
 </body>
 </html>

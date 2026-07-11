@@ -1,67 +1,138 @@
-// src/main.js
-import { addBlog, deleteBlog, updateBlog, getBlogs } from './js/data.js';
-import { renderBlogList, bindDeleteEvents } from './js/ui.js';
+import {addBlog,deleteBlog,updateBlog,getBlogs} from "./js/data.js";
+import {renderBlogList,bindEvents} from "./js/ui.js";
 
-const form = document.getElementById('blog-form');
-const titleInput = document.getElementById('title');
-const bodyInput = document.getElementById('body');
-const imageInput = document.getElementById("image");
-const blogList = document.getElementById('blog-list');
+const form=document.getElementById("blog-form");
+const title=document.getElementById("title");
+const body=document.getElementById("body");
+const image=document.getElementById("image");
+const tags=document.getElementById("tags");
+const editId=document.getElementById("edit-id");
+const list=document.getElementById("blog-list");
+const search=document.getElementById("search");
+const preview=document.getElementById("preview");
+const count=document.getElementById("count");
+const themeBtn=document.getElementById("themeBtn");
 
-let editingId = null;
+function updateCount(){
+count.innerText=getBlogs().length;
+}
 
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  const title = titleInput.value.trim();
-  const body = bodyInput.value.trim();
-  const image = imageInput.value.trim();
+const savedTheme=localStorage.getItem("theme");
 
-  if (!title || !body) return;
+if(savedTheme==="dark"){
+document.body.classList.add("dark");
+themeBtn.innerText="Light Mode";
+}
 
-  if(editingId){
-  updateBlog(
-    {
-    id: editingId,
-    title,
-    body,
-    image
-  });
-  editingId = null;
+themeBtn.onclick=()=>{
+
+document.body.classList.toggle("dark");
+
+if(document.body.classList.contains("dark")){
+localStorage.setItem("theme","dark");
+themeBtn.innerText="Light Mode";
 }else{
-  addBlog({
-    id: Date.now(),
-    title,
-    body,
-    image
-  });
+localStorage.setItem("theme","light");
+themeBtn.innerText="Dark Mode";
+}
+
+};
+
+form.addEventListener("submit",e=>{
+
+e.preventDefault();
+
+let data={
+title:title.value.trim(),
+body:body.value.trim(),
+image:image.value.trim(),
+tags:tags.value.split(",").map(t=>t.trim().toLowerCase()),
+date:new Date().toLocaleDateString(),
+time:new Date().toLocaleTimeString()
+};
+
+if(editId.value){
+
+updateBlog(Number(editId.value),data);
+editId.value="";
+
+}else{
+
+addBlog({
+id:Date.now(),
+...data
+});
 
 }
 
-renderBlogList(blogList);
 form.reset();
+preview.style.display="none";
 
-  addBlog(newBlog);
-  renderBlogList(blogList);
-  form.reset();
-});
-
-bindDeleteEvents(blogList, (id) => {
-  deleteBlog(id);
-  renderBlogList(blogList);
-});
-
-
-blogList.addEventListener("click",(e)=>{
-
-  if(e.target.classList.contains("edit-btn")){
-    const id = Number(e.target.dataset.id);
-    const blog = getBlogs().find(blog => blog.id === id);
-    editingId = id;
-    titleInput.value = blog.title;
-    bodyInput.value = blog.body;
-  }
+renderBlogList(list);
+updateCount();
 
 });
 
-// Initial render
-renderBlogList(blogList);
+bindEvents(list,{
+
+delete(id){
+
+deleteBlog(id);
+renderBlogList(list);
+updateCount();
+
+},
+
+edit(id){
+
+let blog=getBlogs().find(b=>b.id===id);
+
+title.value=blog.title;
+body.value=blog.body;
+image.value=blog.image;
+tags.value=blog.tags.join(",");
+
+editId.value=id;
+
+if(blog.image){
+
+preview.src=blog.image;
+preview.style.display="block";
+
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+});
+
+
+search.addEventListener("input",()=>{
+
+renderBlogList(list,search.value);
+
+});
+
+
+image.addEventListener("input",()=>{
+
+if(image.value){
+
+preview.src=image.value;
+preview.style.display="block";
+
+}else{
+
+preview.style.display="none";
+
+}
+
+});
+
+
+renderBlogList(list);
+updateCount();
